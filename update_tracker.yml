@@ -1,15 +1,14 @@
-name: Update Tracker via Gemini
+name: Daily Automated Poll & Risk Tracker
 
 on:
+  schedule:
+    # 매일 UTC 00:00 (한국시간 오전 09:00) 자동 실행
+    - cron: '0 0 * * *'
+  # 필요시 수동으로 즉시 실행도 가능
   workflow_dispatch:
-    inputs:
-      poll_data:
-        description: '새로운 여론조사 결과 또는 기사 텍스트를 입력하세요'
-        required: true
-        type: string
 
 jobs:
-  update-and-deploy:
+  check-and-update:
     runs-on: ubuntu-latest
     steps:
       - name: 저장소 체크아웃
@@ -20,27 +19,33 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 의존성 설치
+      - name: 의존성 패키지 설치
         run: |
           pip install google-genai pillow
 
-      - name: Gemini API로 갱신 스크립트 생성
+      - name: 웹 여론조사 크롤링 및 Gemini 자동 검증
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python3 scripts/auto_update_poll.py "${{ github.event.inputs.poll_data }}"
+          python3 scripts/auto_monitor_polls.py
 
-      - name: 파이프라인 클린 빌드 및 전체 재검증
+      - name: 새 스크립트가 생성되었을 경우에만 전체 빌드 실행
         run: |
-          rm -f data/tracker.db
-          for f in scripts/0*.py scripts/1*.py; do
-            echo "실행 중: $f"
-            python3 "$f" || exit 1
-          done
+          # 신규 생성된 스크립트가 있는지 확인
+          if git status --porcelain | grep -q "scripts/12_update_"; then
+            echo "신규 여론조사 반영 감지! 전체 파이프라인 재빌드 시작..."
+            rm -f data/tracker.db
+            for f in scripts/0*.py scripts/1*.py; do
+              echo "실행 중: $f"
+              python3 "$f" || exit 1
+            done
+          else
+            echo "갱신할 새 여론조사 없음. 빌드 생략."
+          fi
 
-      - name: 변경사항 Git Commit 및 Push
+      - name: 변경사항 Git 자동 커밋 및 푸시
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update tracker via Gemini Actions [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-harvested new poll data & rebuilt tracker [skip ci]" && git push)
