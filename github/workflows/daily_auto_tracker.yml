@@ -1,0 +1,44 @@
+name: Daily Auto-Pilot Polling Tracker
+
+on:
+  schedule:
+    # 매일 한국 시간 오전 9시 (UTC 00:00)에 자동 실행
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Actions 탭에서 버튼 눌러 즉시 실행도 가능
+
+jobs:
+  auto-track-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 환경 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: |
+          pip install google-genai pillow
+
+      - name: 여론조사 자동 탐색 및 갱신 스크립트 생성
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python3 scripts/cron_auto_collector.py
+
+      - name: 파이프라인 빌드 및 대시보드 갱신
+        run: |
+          rm -f data/tracker.db
+          for f in scripts/0*.py scripts/1*.py; do
+            echo "실행 중: $f"
+            python3 "$f" || exit 1
+          done
+
+      - name: 변경사항 자동 Commit & Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Daily auto-update polling & risk metrics [skip ci]" && git push)
