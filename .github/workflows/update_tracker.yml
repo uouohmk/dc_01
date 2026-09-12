@@ -1,0 +1,81 @@
+name: Manual Update (Review Required)
+
+# 새 여론조사·기사 텍스트를 입력하면 갱신안을 만들고 PR 을 연다.
+# main 에 직접 푸시하지 않는다. 사람이 PR 을 보고 머지한다.
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_url:
+        description: '출처 URL (필수). 이게 없으면 적재하지 않는다.'
+        required: true
+        type: string
+      source_date:
+        description: '발행일 YYYY-MM-DD (필수)'
+        required: true
+        type: string
+      raw_text:
+        description: '여론조사 결과 또는 기사 본문'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: tracker-update
+  cancel-in-progress: false
+
+jobs:
+  propose-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: 한글 폰트 설치 (카드뉴스 생성에 필요)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
+
+      - name: 의존성 설치
+        run: pip install --quiet google-genai pillow
+
+      # 입력을 셸에 직접 넣지 않는다. env 로 전달한다.
+      # "${{ inputs.x }}" 를 run 블록에 그대로 쓰면 명령어 주입이 가능하다.
+      - name: 갱신안 생성
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SOURCE_URL: ${{ inputs.source_url }}
+          SOURCE_DATE: ${{ inputs.source_date }}
+          RAW_TEXT: ${{ inputs.raw_text }}
+        run: python3 scripts/auto_update_poll.py
+
+      - name: 파이프라인 클린 재현
+        run: ./scripts/run_pipeline.sh
+
+      - name: 무결성 검증 (실패 시 PR 을 만들지 않음)
+        run: python3 scripts/99_validate.py
+
+      - name: PR 생성
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/update-${{ github.run_id }}
+          commit-message: "data: 갱신안 (출처 ${{ inputs.source_date }})"
+          title: "데이터 갱신 제안 — ${{ inputs.source_date }}"
+          body: |
+            자동 생성된 갱신안입니다. **머지 전에 아래를 확인하세요.**
+
+            - 출처: ${{ inputs.source_url }}
+            - 발행일: ${{ inputs.source_date }}
+
+            ### 검토 항목
+            - [ ] 후보명이 현재 대진과 일치하는가 (사퇴·교체 확인)
+            - [ ] 조사 필드 기간이 실제 원문과 맞는가
+            - [ ] 등급이면 기준일이 특정돼 있는가
+            - [ ] 마진 부호가 맞는가 (양수 = 민주 우세)
+            - [ ] 새 근거라면 구속력·범위 코드가 적절한가
+          labels: auto-update, needs-review

@@ -1,0 +1,15 @@
+# 실행 순서 매니페스트. 파일명 알파벳순과 실행순은 다르다.
+# '#' 주석과 빈 줄은 무시된다. 새 갱신 스크립트는 build 단계 '앞'에 추가할 것.
+02_seed_step2_3.py
+04_positions.py
+06_update_0829.py
+07_update_0830.py
+08_update_0831.py
+09_update_0901.py
+10_update_0902.py
+12_update_0910.py
+13_polls_0910.py
+# --- 이하 빌드 단계. 반드시 마지막 ---
+03_build_dashboard.py
+05_cards.py
+11_build_handoff.py
