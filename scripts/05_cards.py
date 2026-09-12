@@ -11,12 +11,28 @@ BG, RAISED, RULE, RULE_HI = "#12171F", "#1A212C", "#2A3441", "#3B4757"
 INK, MUTE, DIM = "#DCE2EA", "#78889C", "#4E5B6C"
 DEM, GOP, LOAD, ALERT = "#4A7FD4", "#CE4B41", "#E9A13B", "#E0523F"
 
-NP = "/usr/share/fonts/opentype/noto/NotoSansCJK-%s.ttc"
-def F(style, size):
-    return ImageFont.truetype(NP % style, size, index=1)
-def M(size, bold=False):
-    return ImageFont.truetype(
-        "/usr/share/fonts/truetype/dejavu/DejaVuSansMono%s.ttf" % ("-Bold" if bold else ""), size)
+if os.path.exists("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"):
+    NP = "/usr/share/fonts/opentype/noto/NotoSansCJK-%s.ttc"
+    def F(style, size):
+        return ImageFont.truetype(NP % style, size, index=1)
+elif os.path.exists("C:/Windows/Fonts/NotoSansKR-Regular.otf"):
+    def F(style, size):
+        return ImageFont.truetype(f"C:/Windows/Fonts/NotoSansKR-{style}.otf", size)
+else:
+    def F(style, size):
+        return ImageFont.load_default()
+
+if os.path.exists("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"):
+    def M(size, bold=False):
+        return ImageFont.truetype(
+            "/usr/share/fonts/truetype/dejavu/DejaVuSansMono%s.ttf" % ("-Bold" if bold else ""), size)
+elif os.path.exists("C:/Windows/Fonts/DejaVuSansMono.ttf"):
+    def M(size, bold=False):
+        return ImageFont.truetype(
+            "C:/Windows/Fonts/DejaVuSansMono%s.ttf" % ("-Bold" if bold else ""), size)
+else:
+    def M(size, bold=False):
+        return ImageFont.load_default()
 
 def tw(d, t, f):
     b = d.textbbox((0, 0), t, font=f); return b[2] - b[0]

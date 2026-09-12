@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # 매니페스트 순서대로 전체 파이프라인을 클린 재현한다.
 set -euo pipefail
+export PYTHONUTF8=1
 cd "$(dirname "$0")/.."
 rm -f data/tracker.db
 while IFS= read -r line; do
