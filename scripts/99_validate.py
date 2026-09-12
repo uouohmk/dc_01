@@ -5,6 +5,11 @@
 사람 검토가 빠진 파이프라인에서는 이 검사가 유일한 방어선이다.
 """
 import sqlite3, math, sys, datetime
+if sys.stdout.encoding != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 con = sqlite3.connect("data/tracker.db")
 con.create_function("log", 1, lambda x: math.log(x) if x and x > 0 else None)
