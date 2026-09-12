@@ -10,6 +10,7 @@
 12_update_0910.py
 13_polls_0910.py
 14_update_0912.py
+15_polls_0912.py
 # --- 이하 빌드 단계. 반드시 마지막 ---
 03_build_dashboard.py
 05_cards.py
