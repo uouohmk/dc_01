@@ -36,10 +36,10 @@
 | 6 | 각 주별 데이터센터 현황 | **미착수** | 프로젝트 원장 0건 · 벤더 집계 8행 |
 | 7 | 데이터센터 규모 Top 20 주 | **미착수** | 6번 선행 필요 |
 | 8 | 영향 Top 10 주 | **미착수** | 7번 선행 필요 |
-| 9 | 정치인 정책 비교표 | **부분** | 16명 / 7개 주 · 근거 48건 |
+| 9 | 정치인 정책 비교표 | **부분** | 16명 / 7개 주 · 근거 52건 |
 | 10 | Data Center Political Risk Score | **미착수** | dc_election_risk 0행 |
 | 11 | Election Scenario Analysis | **미착수** | scenario 0행 |
-| 12 | 자동 업데이트 구조 | 완료 | change_log 85건 · 트리거 자동 적재 |
+| 12 | 자동 업데이트 구조 | 완료 | change_log 104건 · 트리거 자동 적재 |
 
 ### 진행이 막힌 지점
 
@@ -62,16 +62,16 @@ STEP 6(정치인 입장)만 선행돼 있어 대시보드의 "데이터센터 �
 
 | 테이블 | 행 |
 |---|---|
-| `source` | 123 |
+| `source` | 159 |
 | `state_political_structure` | 50 |
 | `election_race` | 71 |
-| `candidate` | 129 |
+| `candidate` | 134 |
 | `race_rating` | 22 |
-| `polling` | 189 |
+| `polling` | 318 |
 | `governor_race_detail` | 36 |
-| `politician` | 129 |
+| `politician` | 134 |
 | `politician_dc_position` | 16 |
-| `position_evidence` | 48 |
+| `position_evidence` | 52 |
 | `position_axis_score` | 80 |
 | `dc_project` | 0 ← 비어 있음 |
 | `dc_vendor_count` | 8 |
@@ -80,10 +80,10 @@ STEP 6(정치인 입장)만 선행돼 있어 대시보드의 "데이터센터 �
 | `dc_election_risk` | 0 ← 비어 있음 |
 | `scenario` | 0 ← 비어 있음 |
 | `grid_capacity_price` | 4 |
-| `change_log` | 85 |
+| `change_log` | 104 |
 | `source_conflict` | 4 |
 
-여론조사 커버리지: 51/99 레이스 (공백 48)
+여론조사 커버리지: 59/100 레이스 (공백 41)
 
 ---
 
@@ -210,21 +210,21 @@ BEGIN SELECT RAISE(ABORT,'P3 violation'); END;
 | 주 | 이름 | 당 | 직위 | 레버리지 | 방향 | 최고 근거 | 신뢰도 |
 |---|---|---|---|---|---|---|---|
 | NY | Kathy Hochul | D | 주지사 | **95.0** | -55 | 행정명령 서명 / 신규 전면 중단 | High |
+| TX | Greg Abbott | R | 주지사 | **85.0** | -45 | 규제기관 지시 / 신규 전면 중단 | High |
+| OR | Tina Kotek | D | 주지사 | **85.0** | -55 | 법률 서명·공포 / 신규 전면 중단 | High |
 | PA | Josh Shapiro | D | 주지사 | **71.2** | -50 | 행정명령 서명 / 신규 조건부 허용 | High |
-| TX | Greg Abbott | R | 주지사 | **63.7** | -39 | 규제기관 지시 / 신규 조건부 허용 | High |
-| OR | Tina Kotek | D | 주지사 | **60.0** | -44 | 법률 서명·공포 / 신규 조건부 허용 | High |
+| OH | Vivek Ramaswamy | R | 주지사 | **45.0** | -59 | 공식 정책안 발표 / 신규 전면 중단 | High |
 | TX | Gina Hinojosa | D | 주지사 | **40.0** | -71 | 선거 공약 / 신규 전면 중단 | High |
 | PA | Stacy Garrity | R | 주지사 | **40.0** | -37 | 선거 공약 / 신규 전면 중단 | Medium |
 | OH | Amy Acton | D | 주지사 | **33.8** | -64 | 공식 정책안 발표 / 신규 조건부 허용 | Medium |
 | FL | Byron Donalds | R | 주지사 | **30.0** | -54 | 공식 정책안 발표 / 신규 조건부 허용 | Medium |
-| OH | Vivek Ramaswamy | R | 주지사 | **25.0** | -58 | 공개 발언 / 신규 전면 중단 | Medium |
 | MI | Mike Rogers | R | 연방상원 | **22.0** | -63 | 선거 공약 / 신규 전면 중단 | High |
 | MI | Abdul El-Sayed | D | 연방상원 | **22.0** | -75 | 선거 공약 / 신규 전면 중단 | High |
 | TX | Ken Paxton | R | 연방상원 | **17.3** | -51 | 공식 정책안 발표 / 입지 제한 | High |
 | OH | Jon Husted | R | 연방상원 | **16.5** | 39 | 법안 발의·공동발의 / 전력비용 부담 배분 | High |
 | OR | Christine Drazan | R | 주지사 | **16.3** | -5 | 공개 발언 / 지역 동의 의무 | High |
 | TX | James Talarico | D | 연방상원 | **16.1** | -64 | 공식 정책안 발표 / 지역 동의 의무 | High |
-| OH | Sherrod Brown | D | 연방상원 | **11.0** | -57 | 선거 광고 / 신규 전면 중단 | Medium |
+| OH | Sherrod Brown | D | 연방상원 | **11.0** | -57 | 공개 발언 / 신규 전면 중단 | High |
 
 `v_bipartisan_convergence` — 양당 후보 support_score가 모두 음수인 주.
 이 플래그가 켜지면 **선거 결과와 무관하게 규제가 진행되므로** 시나리오 A/B/C가 수렴한다.
@@ -375,7 +375,7 @@ Scenario A와 B의 결과가 수렴한다.
 
 ---
 
-## 9. 출처 대장 (123건)
+## 9. 출처 대장 (159건)
 
 ⭐ = 1차 출처
 
@@ -393,14 +393,18 @@ Scenario A와 B의 결과가 수렴한다.
 | 8 | Alaska Survey Research ⭐ | [Alaska Statewide Senate Survey: September Update (1,352 LV)](https://www.alaskasurveyresearch.com/polls/2026-senate-september-update) | 2026-09-12 |
 | 8 | Aterio | [US Data Center Database](https://www.aterio.io/insights/us-data-centers) | 2026-08-26 |
 | 8 | Big Data Poll ⭐ | [North Carolina & Georgia Statewide Survey](https://bigdatapoll.com/polls/2026-nc-ga-general-election-september/) | 2026-09-29 |
+| 8 | Cardinal News / Virginia Elections ⭐ | [Retired Maj. Gen. Bert Mizusawa wins Virginia GOP Senate primary to face Mark Warner](https://cardinalnews.org/2026/08/04/mizusawa-wins-virginia-gop-senate-primary/) | 2026-08-04 |
 | 8 | Change Research ⭐ | [Florida Statewide Senate Survey (1,107 LV)](https://changeresearch.com/polls/2026-florida-senate-september) | 2026-09-09 |
 | 8 | Change Research ⭐ | [Florida Statewide Gubernatorial Survey (1,107 LV)](https://changeresearch.com/polls/2026-florida-governor-september) | 2026-09-09 |
 | 8 | Cook Political Report ⭐ | [2026 Senate Race Ratings](https://www.cookpolitical.com/ratings/senate-race-ratings) | 2026-08-20 |
 | 8 | DHM Research ⭐ | [Oregon Statewide Gubernatorial Survey (600 LV)](https://dhmresearch.com/polls/2026-oregon-governor-september/) | 2026-09-09 |
+| 8 | DHM Research ⭐ | [Oregon Governor General Election October 2026 Survey (549 LV)](https://dhmresearch.com/polls/2026-oregon-governor-october/) | 2026-10-01 |
 | 8 | Data for Progress | [Alaska Senate poll, 578 LV](https://www.newsweek.com/democrats-chances-of-flipping-the-senate-75-days-to-midterms-polls-12347504) | 2026-08-19 |
 | 8 | Decision Desk HQ | [2026 Senate polling averages](https://decisiondeskhq.substack.com/p/el-sayed-rogers-michigan-senate-trump-approval-generic-ballot-2026-midterms) | 2026-08-20 |
 | 8 | Detroit News / WDIV / Glengariff Group ⭐ | [Michigan statewide poll, 600 LV](https://www.clickondetroit.com/news/local/2026/09/08/poll-which-us-senate-candidates-are-most-favorable-to-michigan-voters/) | 2026-09-08 |
 | 8 | EPIC-MRA | [Michigan Senate poll](https://www.pollsmax.com/senate/michigan/) | 2026-08-28 |
+| 8 | East Carolina University ⭐ | [ECU Center for Survey Research: NC Senate Poll (810 LV)](https://surveyresearch-ecu.org/2026/10/03/cooper-leads-whatley-in-nc-senate-race/) | 2026-10-03 |
+| 8 | Emerson College ⭐ | [Emerson College Polling: October 2026 Iowa & New York Statewide Surveys](https://emersoncollegepolling.com/october-2026-iowa-and-new-york-polls/) | 2026-10-06 |
 | 8 | Emerson College Polling ⭐ | [Ohio 2026 poll — Senate & Governor](https://emersoncollegepolling.com/ohio-2026-poll-democrats-make-gains-in-races-for-governor-and-us-senate/) | 2025-12-17 |
 | 8 | Emerson College Polling ⭐ | [Iowa 2026 Senate & Governor Poll (750 LV)](https://emersoncollegepolling.com/iowa-2026-senate-and-governor-poll/) | 2026-09-01 |
 | 8 | Emerson College Polling / Nexstar ⭐ | [Texas 2026 poll](https://emersoncollegepolling.com/texas-2026-poll-paxton-and-talarico/) | 2026-08-10 |
@@ -412,10 +416,13 @@ Scenario A와 B의 결과가 수렴한다.
 | 8 | Global Strategy Group ⭐ | [Kentucky Senate General Election Poll (600 LV)](https://www.globalstrategygroup.com/insights/kentucky-senate-2026-poll/) | 2026-08-27 |
 | 8 | Inside Elections ⭐ | [2026 Senate ratings](http://insideelections.com/ratings/senate) | 2026-08-06 |
 | 8 | InsiderAdvantage ⭐ | [Ohio & Texas Statewide General Election Polls (1,200 LV)](https://insideradvantage.com/2026/09/09/ohio-texas-senate-polls-september-2026/) | 2026-09-09 |
+| 8 | InsiderAdvantage ⭐ | [InsiderAdvantage October 2026 Surveys: MI & AK Senate](https://insideradvantage.com/2026/10/10/october-senate-polls-michigan-alaska/) | 2026-10-10 |
 | 8 | Marist University ⭐ | [Marist Poll: Ohio Statewide Survey (1,298 RV)](https://maristpoll.marist.edu/polls/ohio-senate-governor-september-2026/) | 2026-09-27 |
 | 8 | Marquette University ⭐ | [Marquette Law School Poll: Wisconsin Governor General Election (738 LV)](https://law.marquette.edu/poll/2026/08/20/mlsp-wisconsin-governor-august-2026/) | 2026-08-20 |
+| 8 | Marquette University ⭐ | [Marquette Law School Poll: Wisconsin Statewide Survey Sept 16-23, 2026 (692 LV)](https://law.marquette.edu/poll/2026/09/30/mlsp-wisconsin-september-2026/) | 2026-09-30 |
 | 8 | New York Times / Siena College | [Alaska Senate poll, 593 LV](https://www.newsweek.com/democrats-chances-of-flipping-the-senate-75-days-to-midterms-polls-12347504) | 2026-08-19 |
 | 8 | New York Times / Siena College ⭐ | [Pennsylvania & Michigan Statewide Survey: September 2026](https://www.nytimes.com/interactive/2026/09/22/us/elections/pa-mi-senate-governor-poll.html) | 2026-09-22 |
+| 8 | New York Times / Siena College ⭐ | [October 2026 Battleground Polls: TX, OH, IA, AK, NH](https://www.nytimes.com/interactive/2026/10/01/us/elections/battleground-senate-governor-polls.html) | 2026-10-01 |
 | 8 | NextGen P ⭐ | [Arizona Statewide General Election Poll (1,627 LV)](https://nextgenpolls.org/arizona-governor-hobbs-biggs-august-2026/) | 2026-08-19 |
 | 8 | Overton Insights / TPPF ⭐ | [Texas poll, 1167 LV](https://overtoninsights.com/poll/september-2026/) | 2026-09-07 |
 | 8 | Pollsmax | [Nevada Governor polling average (10건)](https://www.pollsmax.com/governor/nevada/) | 2026-07-29 |
@@ -436,13 +443,16 @@ Scenario A와 B의 결과가 수렴한다.
 | 8 | Pollsmax | [Oregon Governor polling average (4건)](https://www.pollsmax.com/governor/oregon/) | 2026-09-09 |
 | 8 | Pollsmax | [Florida Governor polling average (19건)](https://www.pollsmax.com/governor/florida/) | 2026-09-09 |
 | 8 | Pollsmax | [Florida Senate polling average (6건)](https://www.pollsmax.com/senate/florida/) | 2026-09-10 |
+| 8 | Pollsmax | [Tennessee Governor & Senate Polling Average (4건/1건) & TargetSmart / Targoz Surveys](https://www.pollsmax.com/governor/tennessee/) | 2026-09-12 |
 | 8 | Pollsmax | [New Hampshire Senate polling average (20건)](https://www.pollsmax.com/senate/new-hampshire/) | 2026-09-17 |
 | 8 | Pollsmax | [Alaska Senate polling average (17건)](https://www.pollsmax.com/senate/alaska/) | 2026-09-17 |
 | 8 | Pollsmax | [New York Governor polling average (22건)](https://www.pollsmax.com/governor/new-york/) | 2026-09-17 |
 | 8 | Pollsmax | [Florida Senate polling average (9건)](https://www.pollsmax.com/senate/florida/) | 2026-09-21 |
 | 8 | Pollsmax | [Pennsylvania Governor polling average (16건)](https://www.pollsmax.com/governor/pennsylvania/) | 2026-09-22 |
 | 8 | Pollsmax | [Georgia Governor polling average (11건)](https://www.pollsmax.com/governor/georgia/) | 2026-09-23 |
+| 8 | Pollsmax | [Nevada Governor Polling Average (13건) & Noble Predictive Insights Survey](https://www.pollsmax.com/governor/nevada/) | 2026-09-26 |
 | 8 | Pollsmax | [Ohio Governor polling average (19건)](https://www.pollsmax.com/governor/ohio/) | 2026-09-27 |
+| 8 | Pollsmax | [Maryland Governor Polling Average (3건) & UMD / UMBC Surveys](https://www.pollsmax.com/governor/maryland/) | 2026-09-27 |
 | 8 | Pollsmax | [Texas Senate polling average (38건)](https://www.pollsmax.com/senate/texas/) | 2026-09-28 |
 | 8 | Pollsmax | [Texas Governor polling average (37건)](https://www.pollsmax.com/governor/texas/) | 2026-09-28 |
 | 8 | Pollsmax | [Michigan Senate polling average (36건)](https://www.pollsmax.com/senate/michigan/) | 2026-09-28 |
@@ -452,18 +462,42 @@ Scenario A와 B의 결과가 수렴한다.
 | 8 | Pollsmax | [North Carolina Senate polling average (34건)](https://www.pollsmax.com/senate/north-carolina/) | 2026-09-29 |
 | 8 | Pollsmax | [Iowa Senate polling average (22건)](https://www.pollsmax.com/senate/iowa/) | 2026-09-29 |
 | 8 | Pollsmax | [Maine Senate polling average (14건)](https://www.pollsmax.com/senate/maine/) | 2026-10-01 |
+| 8 | Pollsmax | [Illinois Senate & Governor October 2026 Polling (PPP 569 LV)](https://www.pollsmax.com/governor/illinois/) | 2026-10-01 |
+| 8 | Pollsmax | [Oregon Governor October 2026 Polling Average (7건)](https://www.pollsmax.com/governor/oregon/) | 2026-10-04 |
+| 8 | Pollsmax | [Arkansas Senate & Governor Polling Average (5건/2건) & Hendrix / GrayHouse Surveys](https://www.pollsmax.com/senate/arkansas/) | 2026-10-04 |
+| 8 | Pollsmax | [Pennsylvania Governor October 2026 Polling Average (19건)](https://www.pollsmax.com/governor/pennsylvania/) | 2026-10-05 |
+| 8 | Pollsmax | [New Hampshire Senate October 2026 Polling Average (26건)](https://www.pollsmax.com/senate/new-hampshire/) | 2026-10-05 |
+| 8 | Pollsmax | [New York Governor October 2026 Polling Average (28건)](https://www.pollsmax.com/governor/new-york/) | 2026-10-05 |
+| 8 | Pollsmax | [Ohio Senate & Governor October 2026 Polling Average (32건/27건)](https://www.pollsmax.com/senate/ohio/) | 2026-10-06 |
+| 8 | Pollsmax | [Iowa Senate & Governor October 2026 Polling Average (28건/16건)](https://www.pollsmax.com/senate/iowa/) | 2026-10-06 |
+| 8 | Pollsmax | [Florida Senate & Governor October 2026 Polling Average (14건/29건)](https://www.pollsmax.com/governor/florida/) | 2026-10-07 |
+| 8 | Pollsmax | [Texas Senate & Governor October 2026 Polling Average (49건/43건)](https://www.pollsmax.com/senate/texas/) | 2026-10-08 |
+| 8 | Pollsmax | [Maine Senate October 2026 Polling Average (24건)](https://www.pollsmax.com/senate/maine/) | 2026-10-08 |
+| 8 | Pollsmax | [Arizona Governor October 2026 Polling Average (24건)](https://www.pollsmax.com/governor/arizona/) | 2026-10-08 |
+| 8 | Pollsmax | [Georgia Senate & Governor October 2026 Polling Average (19건/13건)](https://www.pollsmax.com/senate/georgia/) | 2026-10-09 |
+| 8 | Pollsmax | [Michigan Senate & Governor October 2026 Polling Average (49건/40건)](https://www.pollsmax.com/senate/michigan/) | 2026-10-10 |
+| 8 | Pollsmax | [North Carolina Senate October 2026 Polling Average (41건)](https://www.pollsmax.com/senate/north-carolina/) | 2026-10-10 |
+| 8 | Pollsmax | [Alaska Senate October 2026 Polling Average (24건)](https://www.pollsmax.com/senate/alaska/) | 2026-10-10 |
 | 8 | Public Opinion Strategies ⭐ | [Nevada Statewide Governor Survey (600 LV)](https://pos.org/nevada-governor-race-poll-july-2026/) | 2026-07-29 |
+| 8 | Quinnipiac University ⭐ | [Quinnipiac Poll: Pennsylvania & New York Governor Races](https://poll.qu.edu/poll-release?releaseid=3965) | 2026-10-05 |
+| 8 | SSRS ⭐ | [SSRS October 2026 Ohio & Iowa Midterm Election Surveys](https://ssrs.com/research/2026-october-ohio-iowa-election-poll/) | 2026-10-05 |
 | 8 | Sabato's Crystal Ball ⭐ | [2026 Senate ratings](https://centerforpolitics.org/crystalball/2026-senate/) | 2026-08-26 |
 | 8 | Sabato's Crystal Ball ⭐ | [2026 Rating Changes](https://centerforpolitics.org/crystalball/2026-rating-changes/) | 2026-08-26 |
+| 8 | Saint Anselm College ⭐ | [Saint Anselm College Survey Center: NH Senate Poll (1,042 LV)](https://www.anselm.edu/nh-institute-politics/polls/2026-09-29-nh-senate) | 2026-09-29 |
 | 8 | Siena College ⭐ | [Siena College Research Institute: New York Governor Poll (1,144 LV)](https://scri.siena.edu/2026/09/17/hochul-leads-blakeman-in-new-york-governor-race/) | 2026-09-17 |
+| 8 | Signal Ohio / The Guardian ⭐ | [Ohio Data Center Flashpoint: Ramaswamy Property Tax Relief Mandate & Brown Farmland-Water Protection Campaign](https://signalohio.org/2026/09/18/ohio-governor-senate-candidates-target-data-center-tax-breaks-and-water/) | 2026-09-24 |
+| 8 | St. Pete Polls ⭐ | [Florida Statewide Senate & Governor Survey (836 LV)](https://stpetepolls.org/files/StPetePolls_2026_Statewide_Oct7.pdf) | 2026-10-07 |
 | 8 | Stetson University ⭐ | [Stetson Poll: Florida Senate Race (830 LV)](https://www.stetson.edu/artsci/political-science/poll/2026-september-update.php) | 2026-09-21 |
 | 8 | Suffolk University ⭐ | [Ohio Statewide Senate & Governor Poll (500 LV)](https://www.suffolk.edu/academics/research-at-suffolk/political-research-center/polls/ohio-september-2026) | 2026-09-27 |
 | 8 | Trafalgar Group ⭐ | [Michigan Statewide Senate Poll (1,079 LV)](https://thetrafalgargroup.org/polls/2026-michigan-senate-september) | 2026-09-09 |
+| 8 | Trafalgar Group ⭐ | [October 2026 Statewide Polls: TX, MI, GA, NC, ME, AK, NH](https://thetrafalgargroup.org/polls/2026-october-battleground-surveys/) | 2026-10-10 |
 | 8 | University of New Hampshire ⭐ | [UNH Survey Center: NH Statewide Senate Poll (1,878 LV)](https://cola.unh.edu/survey-center/publication/2026/08/nh-senate-poll) | 2026-08-24 |
+| 8 | Washington Post / Schar School ⭐ | [Washington Post-Schar School Maine Senate Poll (800 LV)](https://www.washingtonpost.com/politics/2026/10/05/maine-senate-poll-jackson-collins/) | 2026-10-05 |
 | 8 | Wedgewood Polls | [Ohio Senate & Governor poll](https://thehill.com/homenews/campaign/6031596-brown-acton-lead-ohio-polls/) | 2026-08-14 |
 | 8 | Wedgewood Polls ⭐ | [Maine Senate General Election Survey (400 LV)](https://wedgewoodpolls.com/reports/2026-maine-senate-october-update) | 2026-10-01 |
 | 8 | YouGov ⭐ | [North Carolina Senate General Election Survey (565 LV)](https://today.yougov.com/politics/articles/2026-midterms-nc-senate) | 2026-08-31 |
 | 8 | YouGov ⭐ | [Texas General Election Poll (1,000 RV)](https://today.yougov.com/politics/articles/texas-senate-gov-september-2026) | 2026-09-04 |
+| 8 | YouGov ⭐ | [CBS News / YouGov Early October 2026 Statewide Election Surveys](https://today.yougov.com/politics/articles/2026-10-05-october-statewide-midterm-polls) | 2026-10-05 |
 | 8 | datacenterbans.com | [US Data Center Policy Landscape — end of August 2026](https://www.datacenterbans.com/) | 2026-08-28 |
 | 8 | dcmap.us | [US Data Center Map](https://dcmap.us/) | 2026-02-20 |
 | 9 | 270toWin | [2026 Senate Election / Cook ratings](https://www.270towin.com/2026-senate-election/cook-political-report-2026-senate) | 2026-08-20 |
@@ -494,6 +528,8 @@ Scenario A와 B의 결과가 수렴한다.
 | 9 | NPR | [Data centers are a political issue crossing party lines](https://www.npr.org/2026/08/08/g-s1-137853/data-centers-primaries-midterms) | 2026-08-08 |
 | 9 | New Hampshire Public Radio | [Pappas, Sununu sweep to victory in U.S. Senate primaries](https://www.nhpr.org/politics/2026-09-08/pappas-sununu-win-senate-primaries-nh-newhampshire-elections-2026) | 2026-09-08 |
 | 9 | Newsweek | [El-Sayed dealt polling blow in Michigan race against Rogers](https://www.newsweek.com/abdul-el-sayed-polling-blow-michigan-senate-mike-rogers-12421084) | 2026-09-09 |
+| 9 | Office of the Texas Governor / TCEQ ⭐ | [Gov. Abbott Directs TCEQ to Freeze Environmental Permits for Data Centers Pending Grid and Water Audits](https://gov.texas.gov/news/post/governor-abbott-directs-tceq-to-pause-data-center-environmental-permits) | 2026-09-21 |
+| 9 | Oregon Public Broadcasting / Office of the Governor ⭐ | [Gov. Tina Kotek Endorses Statewide Data Center Moratorium and Halts State Land Approvals Through July 2027](https://www.opb.org/article/2026/09/08/oregon-governor-tina-kotek-endorses-data-center-moratorium/) | 2026-09-08 |
 | 9 | Philadelphia Inquirer | [The data center backlash bursts into the midterms](https://www.inquirer.com/politics/data-centers-ai-politics-votter-opposition-democrats-republicans-pivot-shapiro-20260823.html) | 2026-08-23 |
 | 9 | Texas Tribune | [New Texas data center projects frozen until state audits them](https://www.texastribune.org/2026/08/03/texas-data-center-project-audit-greg-abbott/) | 2026-08-03 |
 | 9 | The Hill | [Mike Rogers doubles down on push for data center moratorium](https://thehill.com/homenews/campaign/6043170-mike-rogers-data-center-pressure-michigan-senate-race/) | 2026-08-21 |
